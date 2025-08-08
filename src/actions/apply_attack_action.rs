@@ -3,6 +3,7 @@ use rand::Rng;
 
 use crate::{
     attack_ids::AttackId,
+    attacks::caterpie::caterpie_find_a,
     effects::{CardEffect, TurnEffect},
     hooks::get_damage_from_attack,
     types::{EnergyType, StatusCondition},
@@ -97,6 +98,7 @@ fn forecast_effect_attack(
     match attack_id {
         AttackId::A1003VenusaurMegaDrain => self_heal_attack(30, index),
         AttackId::A1004VenusaurExGiantBloom => self_heal_attack(30, index),
+        AttackId::A1005CaterpieFindA => caterpie_find_a(acting_player, state),
         AttackId::A1013VileplumeSoothingScent => damage_status_attack(80, StatusCondition::Asleep),
         AttackId::A1017VenomothPoisonPowder => damage_status_attack(30, StatusCondition::Poisoned),
         AttackId::A1022ExeggutorStomp => probabilistic_damage_attack(vec![0.5, 0.5], vec![30, 60]),

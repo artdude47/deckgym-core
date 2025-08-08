@@ -1,9 +1,9 @@
 mod apply_abilities_action;
 mod apply_action;
-mod apply_action_helpers;
+pub(crate) mod apply_action_helpers;
 mod apply_attack_action;
 mod apply_trainer_action;
-mod mutations;
+pub(crate) mod mutations;
 mod shared_mutations;
 mod types;
 
