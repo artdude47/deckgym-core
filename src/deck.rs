@@ -46,7 +46,8 @@ impl Deck {
             {
                 continue;
             }
-            if trimmed.starts_with("Energy:") {
+            let lower = trimmed.to_ascii_lowercase();
+            if lower.starts_with("energy:") {
                 let energy_type: &str = trimmed
                     .split_whitespace()
                     .last()
@@ -256,5 +257,29 @@ Trainer: 12
 2 Professor's Research P-A 7"#;
         let deck = Deck::from_string(string).expect("Failed to parse deck from string");
         assert_eq!(deck.cards.len(), 20);
+    }
+
+    #[test]
+    fn test_from_string_with_lowercase_energy_keyword() {
+        let string = r#"energy: grass
+Pokémon: 8
+2 Ekans A1 164
+2 Arbok A1 165
+2 Koffing A1 176
+2 Weezing A1 177
+
+Trainer: 12
+2 Professor's Research P-A 007
+2 Koga A1 222
+2 Poké Ball P-A 005
+2 Sabrina A1 225
+2 Potion P-A 001
+1 X Speed P-A 002
+1 Giovanni A1 223"#;
+        let deck = Deck::from_string(string).expect("Failed to parse deck from string");
+
+        assert_eq!(deck.cards.len(), 20);
+        assert_eq!(deck.energy_types.len(), 1);
+        assert_eq!(deck.energy_types[0], EnergyType::Grass);
     }
 }
