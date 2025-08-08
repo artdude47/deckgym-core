@@ -21,17 +21,17 @@ pub enum EnergyType {
 }
 impl EnergyType {
     pub(crate) fn from_str(energy_type: &str) -> Option<Self> {
-        match energy_type {
-            "Grass" => Some(EnergyType::Grass),
-            "Fire" => Some(EnergyType::Fire),
-            "Water" => Some(EnergyType::Water),
-            "Lightning" => Some(EnergyType::Lightning),
-            "Psychic" => Some(EnergyType::Psychic),
-            "Fighting" => Some(EnergyType::Fighting),
-            "Darkness" => Some(EnergyType::Darkness),
-            "Metal" => Some(EnergyType::Metal),
-            "Dragon" => Some(EnergyType::Dragon),
-            "Colorless" => Some(EnergyType::Colorless),
+        match energy_type.to_ascii_lowercase().as_str() {
+            "grass" => Some(EnergyType::Grass),
+            "fire" => Some(EnergyType::Fire),
+            "water" => Some(EnergyType::Water),
+            "lightning" => Some(EnergyType::Lightning),
+            "psychic" => Some(EnergyType::Psychic),
+            "fighting" => Some(EnergyType::Fighting),
+            "darkness" => Some(EnergyType::Darkness),
+            "metal" => Some(EnergyType::Metal),
+            "dragon" => Some(EnergyType::Dragon),
+            "colorless" => Some(EnergyType::Colorless),
             _ => None,
         }
     }
