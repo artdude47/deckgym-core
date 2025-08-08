@@ -31,6 +31,7 @@ pub(crate) fn forecast_ability(
         AbilityId::A3122SolgaleoExRisingRoad => rising_road(index),
         AbilityId::A3a027ShiinoticIlluminate => pokeball_outcomes(action.actor, state),
         AbilityId::A3b034SylveonExHappyRibbon => panic!("Happy Ribbon cant be used on demand"),
+        AbilityId::A1020VictreebelFragranceTrap => fragrance_trap(),
     }
 }
 
@@ -71,5 +72,22 @@ fn rising_road(index: usize) -> (Probabilities, Mutations) {
         debug!("Solgaleo's ability: Switching with active Pokemon");
         let choices = vec![SimpleAction::Activate { in_play_idx: index }];
         state.move_generation_stack.push((action.actor, choices));
+    }))
+}
+
+fn fragrance_trap() -> (Probabilities, Mutations) {
+    ability_doutcome(ability_mutation(|_, state, action| {
+        // If this Pokémon is in the Active Spot, once during your turn, you may switch in 1 of your opponent's Benched Basic Pokémon to the Active Spot.
+        debug!("Victreebel's ability: Fragrance Trap");
+        let opponent = (action.actor + 1) % 2;
+        let mut choices = Vec::new();
+        for (in_play_idx, pokemon) in state.enumerate_bench_pokemon(opponent) {
+            if pokemon.card.is_basic() {
+                choices.push(SimpleAction::ForceSwitchOpponent { in_play_idx });
+            }
+        }
+        if !choices.is_empty() {
+            state.move_generation_stack.push((action.actor, choices));
+        }
     }))
 }

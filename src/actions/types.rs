@@ -55,6 +55,10 @@ pub enum SimpleAction {
     Activate {
         in_play_idx: usize,
     },
+    /// Force the opponent to switch the specified bench Pokémon with their active Pokémon.
+    ForceSwitchOpponent {
+        in_play_idx: usize,
+    },
     Noop, // No operation, used to have the user say "no" to a question
 }
 
@@ -101,6 +105,9 @@ impl fmt::Display for SimpleAction {
                 write!(f, "ApplyDamage({targets_str})")
             }
             SimpleAction::Activate { in_play_idx } => write!(f, "Activate({in_play_idx})"),
+            SimpleAction::ForceSwitchOpponent { in_play_idx } => {
+                write!(f, "ForceSwitchOpponent({in_play_idx})")
+            }
             SimpleAction::Noop => write!(f, "Noop"),
         }
     }

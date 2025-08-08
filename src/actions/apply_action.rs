@@ -43,6 +43,7 @@ pub fn forecast_action(state: &State, action: &Action) -> (Probabilities, Mutati
         | SimpleAction::AttachTool { .. }
         | SimpleAction::Evolve(_, _)
         | SimpleAction::Activate { .. }
+        | SimpleAction::ForceSwitchOpponent { .. }
         | SimpleAction::Retreat(_)
         | SimpleAction::ApplyDamage { .. }
         | SimpleAction::Heal { .. }
@@ -106,6 +107,10 @@ fn apply_deterministic_action(state: &mut State, action: &Action) {
         }
         SimpleAction::Activate { in_play_idx } => {
             apply_retreat(action.actor, state, *in_play_idx, true);
+        }
+        SimpleAction::ForceSwitchOpponent { in_play_idx } => {
+            let opponent = (action.actor + 1) % 2;
+            apply_retreat(opponent, state, *in_play_idx, true);
         }
         SimpleAction::Retreat(position) => {
             apply_retreat(action.actor, state, *position, false);
